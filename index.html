@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostonic - Host Your Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-bottom: 10px;
+    }
+    input, button {
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Host Your Website</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label for="website-name">Website Name:</label>
+      <input type="text" id="website-name" name="website-name" required>
+      
+      <label for="html-file">HTML File:</label>
+      <input type="file" id="html-file" name="html-file" accept=".html" required>
+
+      <label for="css-file">CSS File:</label>
+      <input type="file" id="css-file" name="css-file" accept=".css">
+
+      <label for="js-file">JS File:</label>
+      <input type="file" id="js-file" name="js-file" accept=".js">
+
+      <button type="submit">Host Website</button>
+    </form>
+
+    <p id="responseMessage"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      document.getElementById('responseMessage').innerText = result.message;
+    });
+  </script>
+</body>
+</html>
